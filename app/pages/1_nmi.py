@@ -2,6 +2,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 import sqlite3
+from geopy.geocoders import Nominatim
+import folium
 
 #global variables
 reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh', 'Import kVARh', 'Cost ex GST', 'Carbon kg']
@@ -41,7 +43,35 @@ def nmi_page():
     
     with st.container():
         st.header("Display map and nmi deets")
+
+        #setup columns
+        col1, col2 = st.columns(2)
+
+        #temp values
+        address ='83 Mount Street, North Sydney NSW 2060'
+
+        with col1:
+            # Geocode address and display map
+            if address:
+                geolocator = Nominatim(user_agent="my_app")
+                location = geolocator.geocode(address)
+                if location:
+                    latitude, longitude = location.latitude, location.longitude
+                    location_df = pd.DataFrame(data=[[latitude,longitude]],columns=['lat','lon'])
+                    st.map(location_df)
     
+        customer='test customer'
+
+        with col2:
+            #create details table
+            table_data ={
+                'Detail': ['Master Customer','Site Alias','Customer Classification Code', 'Customer Threshold Code', 'Average Daily Load'],
+                'Value': [customer, 'test site','test code', 'test code','test load']
+            }
+
+            table_df = pd.DataFrame(table_data)
+
+            st.table(table_df)
     #middle page container
 
 
