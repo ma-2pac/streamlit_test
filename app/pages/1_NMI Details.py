@@ -6,15 +6,17 @@ from geopy.geocoders import Nominatim
 import folium
 import plotly.express as px
 from streamlit import session_state
+import mtatk
+import sys
+
+sys.path.insert(0,'..')
+
+from modules.utils import api_con 
 
 
 #global variables
 reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh', 'Import kVARh', 'Cost ex GST', 'Carbon kg']
-nmi_list =['Select a NMI','nmi1','nmi2','nmi3']
-
-
-
-
+nmi_list =['Select a NMI','2001000645','3050623770','3116638123']
 
 
 
@@ -99,17 +101,18 @@ def nmi_page():
     #bottom page container
     with st.container():
         if session_state.sub_key:
-   
-            #sample data
-            data ={
-                'date': pd.date_range(start='2023-01-01',end='2023-12-31',freq='D'),
-                'value': range(365)
-            }
 
-            chart_df = pd.DataFrame(data)
+            meter_data_df= api_con.get_interval_meter_data(nmi=nmi_in,start_date=start_dt_in, end_date=end_dt_in, grouped_by_nmi=True, drop_estimates=False)
+   
+            #filter for reading type
+            if read_in =='Export kWh':
+                export_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='export_kwh']
+            else:
+                export_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='export_kwh']
+            
 
             # Create line chart with Plotly
-            fig = px.line(chart_df, x='date', y='value', title=f'{nmi_in} - {read_in}')
+            fig = px.line(export_df, x='settlement_datetime', y='reading', title=f'{nmi_in} - {read_in}')
 
             #render fig
             st.plotly_chart(fig, use_container_width=True)
