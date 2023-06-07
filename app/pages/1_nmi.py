@@ -5,18 +5,24 @@ import sqlite3
 from geopy.geocoders import Nominatim
 import folium
 import plotly.express as px
-from streamlit import SessionState
+from streamlit import session_state
 
 #global variables
 reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh', 'Import kVARh', 'Cost ex GST', 'Carbon kg']
 nmi_list =['Select a NMI','nmi1','nmi2','nmi3']
 
+def init_session_state():
+    
+    if 'sub_key' not in session_state:
+        session_state['sub_key'] = False
+
+    return session_state
 
 
 # Page: NMI Details
 
 def nmi_page():
-    submit_valid=False
+    submit_valid = init_session_state()
     st.title("NMI Details")
 
     #top  page container
@@ -40,15 +46,15 @@ def nmi_page():
             #validate nmi and reading inputs
             if nmi_in =='Select a NMI' or read_in == 'Select a reading type':
                 st.write('Invalid submission. Try again')
-                submit_valid=False
+                submit_valid.sub_key=False
 
             else:
                 st.write('Valid submission')
-                submit_valid=True
+                submit_valid.sub_key=True
 
     #middle page container
     with st.container():
-        if submit_valid:
+        if submit_valid.sub_key:
             st.header("Display map and nmi deets")
 
             #setup columns
@@ -82,7 +88,7 @@ def nmi_page():
 
     #bottom page container
     with st.container():
-        if submit_valid:
+        if submit_valid.sub_key:
 
             #setup cols
             col1, col2 = st.columns(2)
