@@ -1,9 +1,64 @@
-<mxfile host="app.diagrams.net" modified="2023-06-07T02:06:04.703Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.37" version="21.3.7" etag="XcCOIAwYfIOQcsQOUwBn" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-07T02:26:07.968Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.37" etag="gfAFE--5YlgjBKUg9ZfK" version="21.3.7" type="github">
   <diagram name="Page-1" id="OhCRAxE2tBPr2_5LxdlA">
-    <mxGraphModel>
+    <mxGraphModel dx="1604" dy="1180" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="7iDqbjlcnPK4owljbzZB-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="70" width="950" height="670" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-2" value="Main Page&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="30" width="310" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-3" value="logo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="980" y="90" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-15" value="Side Menu" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="130" y="80" width="180" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-16" value="NMI Details" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="110" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-17" value="Overall Portfolio Graphs" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="120" width="650" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-18" value="Site kwh pie chart" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="390" y="450" width="215" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-19" value="Site carbon pie chart" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="730" y="450" width="215" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-20" value="Client Filter" style="rounded=1;fillColor=#F1F2F4;strokeColor=none;html=1;whiteSpace=wrap;fontColor=#596780;align=left;fontSize=12;spacingLeft=10;sketch=0;" vertex="1" parent="1">
+          <mxGeometry x="427.5" y="388.5" width="140" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-21" value="" style="shape=triangle;direction=south;fillColor=#596780;strokeColor=none;html=1;sketch=0;" vertex="1" parent="7iDqbjlcnPK4owljbzZB-20">
+          <mxGeometry x="1" y="0.5" width="12" height="6" relative="1" as="geometry">
+            <mxPoint x="-20" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-22" value="Client Filter" style="rounded=1;fillColor=#F1F2F4;strokeColor=none;html=1;whiteSpace=wrap;fontColor=#596780;align=left;fontSize=12;spacingLeft=10;sketch=0;" vertex="1" parent="1">
+          <mxGeometry x="767.5" y="388.5" width="140" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-23" value="" style="shape=triangle;direction=south;fillColor=#596780;strokeColor=none;html=1;sketch=0;" vertex="1" parent="7iDqbjlcnPK4owljbzZB-22">
+          <mxGeometry x="1" y="0.5" width="12" height="6" relative="1" as="geometry">
+            <mxPoint x="-20" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-25" value="Last Updated:" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="915" y="310" width="85" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-27" value="Solar" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="180" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-28" value="Gas" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-30" value="Site Map" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="320" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7iDqbjlcnPK4owljbzZB-31" value="Networks" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="394" width="120" height="40" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
