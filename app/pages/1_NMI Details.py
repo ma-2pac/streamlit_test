@@ -7,6 +7,7 @@ import folium
 import plotly.express as px
 from streamlit import session_state
 
+
 #global variables
 reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh', 'Import kVARh', 'Cost ex GST', 'Carbon kg']
 nmi_list =['Select a NMI','nmi1','nmi2','nmi3']
@@ -86,15 +87,6 @@ def nmi_page():
 
                 st.table(table_df)
 
-    #bottom page container
-    with st.container():
-        if submit_valid.sub_key:
-
-            #setup cols
-            col1, col2 = st.columns(2)
-
-            with col1:
-
                 #responsible party table
                 resp_pty ={
                     'Party': ['placeholder'],
@@ -106,20 +98,22 @@ def nmi_page():
 
                 st.table(resp_pty_df)
 
-            with col2:
-                
-                #sample data
-                data ={
-                    'date': pd.date_range(start='2023-01-01',end='2023-12-31',freq='D'),
-                    'value': range(365)
-                }
+    #bottom page container
+    with st.container():
+        if submit_valid.sub_key:
+   
+            #sample data
+            data ={
+                'date': pd.date_range(start='2023-01-01',end='2023-12-31',freq='D'),
+                'value': range(365)
+            }
 
-                chart_df = pd.DataFrame(data)
+            chart_df = pd.DataFrame(data)
 
-                # Create line chart with Plotly
-                fig = px.line(chart_df, x='date', y='value', title=f'{nmi_in} {read_in}')
+            # Create line chart with Plotly
+            fig = px.line(chart_df, x='date', y='value', title=f'{nmi_in} - {read_in}')
 
-                #render fig
-                st.plotly_chart(fig)
+            #render fig
+            st.plotly_chart(fig, use_container_width=True)
 
 nmi_page()
