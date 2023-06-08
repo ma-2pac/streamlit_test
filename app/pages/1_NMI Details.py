@@ -8,17 +8,30 @@ import plotly.express as px
 from streamlit import session_state
 import mtatk
 import sys
+import os
 
 sys.path.insert(0,'..')
 
-from modules.utils import api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants, convert_df
+from modules.utils import *
+#from modules.utils import * api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants, convert_df
 
 
 #global variables
 reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh', 'Import kVARh', 'Cost ex GST', 'Carbon kg']
-nmi_list =['Select a NMI','2001000645','3050623770','3116638123']
+nmi_list =['Select a NMI']
+nmi_list=nmi_list+get_nmi_list() #add all nmi's in database to list
 
 
+
+# #get base dir
+# base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# header_html = "<img src='data:image/png;base64,{}' class='img-fluid'>".format(
+#     img_to_bytes("imgs/400dpiLogo.jpg")
+# )
+# st.markdown(
+#     header_html, unsafe_allow_html=True,
+# )
 
 # Page: NMI Details
 
@@ -28,7 +41,6 @@ def nmi_page():
 
     #top  page container
     with st.container():
-        st.header('Enter NMI details here')
 
         #set page columns
         col1, col2 =st.columns(2)
@@ -40,37 +52,34 @@ def nmi_page():
         with col2:
             start_dt_in = st.date_input("Start Date")
             end_dt_in = st.date_input("End Date")
+    
+    with st.container():
 
-        #add submit button
-        if st.button("Submit"):
+        #set page columns
+        col1, col2, col3 = st.columns(3)
 
-            #validate nmi and reading inputs
-            if nmi_in =='Select a NMI' or read_in == 'Select a reading type':
-                st.write('Invalid submission. Try again')
-                session_state.sub_key=False
+        with col2:
+            #add submit button
+            if st.button("Submit", use_container_width=True):
 
-            else:
-                session_state.sub_key=True
+                #validate nmi and reading inputs
+                if nmi_in =='Select a NMI' or read_in == 'Select a reading type':
+                    st.write('Invalid submission. Try again')
+                    session_state.sub_key=False
+
+                else:
+                    session_state.sub_key=True
 
     #middle page container
     with st.container():
         if session_state.sub_key:
-            st.header("Display map and nmi deets")
-
+            #st.header("Display map and nmi deets")
 
             #get df entry for thechosen nmi
             nmi_details = get_nmi_msats_data(nmi=nmi_in)
             nmi_reg_details = get_nmi_tariff(nmi=nmi_in)
             nmi_site_details = get_nmi_customer(nmi=nmi_in)
             nmi_party_details = get_nmi_participants(nmi=nmi_in)
-
-
-            #address details
-            street_num = nmi_details['house_number']
-            street_name =  nmi_details['street_name'].capitalize()
-            suburb =  nmi_details['suburb_or_place_or_locality'].capitalize()
-            postcode = nmi_details['post_code']
-            state = nmi_details['state_or_territory']
 
             #nmi codes
             customer_class_code = nmi_details['customer_classification_code']
