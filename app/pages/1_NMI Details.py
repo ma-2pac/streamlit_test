@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0,'..')
 
-from modules.utils import api_con 
+from modules.utils import api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants
 
 
 #global variables
@@ -58,43 +58,71 @@ def nmi_page():
         if session_state.sub_key:
             st.header("Display map and nmi deets")
 
+
+            #get df entry for thechosen nmi
+            nmi_details = get_nmi_msats_data(nmi=nmi_in)
+            nmi_reg_details = get_nmi_tariff(nmi=nmi_in)
+            nmi_site_details = get_nmi_customer(nmi=nmi_in)
+            nmi_party_details = get_nmi_participants(nmi=nmi_in)
+
+
+            #address details
+            street_num = nmi_details['house_number']
+            street_name =  nmi_details['street_name'].capitalize()
+            suburb =  nmi_details['suburb_or_place_or_locality'].capitalize()
+            postcode = nmi_details['post_code']
+            state = nmi_details['state_or_territory']
+
+            #nmi codes
+            customer_class_code = nmi_details['customer_classification_code']
+            customer_thresh_code = nmi_details['customer_threshold_code']
+            jurisdiction_code = nmi_details['jurisdiction_code']
+
+            #tariff info
+            network_tariff_code = nmi_reg_details['network_tariff_code']
+
+            #site info
+            site_customer = nmi_site_details['master_customer']
+            site_size = nmi_site_details['site_size']
+            site_alias = nmi_site_details['site_alias']
+            site_address = nmi_site_details['site_address']
+
+            #only keep required columns from nmi_party_details
+            nmi_party_details=nmi_party_details[['party','role','from_date']]
+
+            #rename colummns
+            nmi_party_details = nmi_party_details.rename(columns={"party": "Party", 'role': 'Role', 'from_date': 'From Date'})
+
+            #replace AUS with australia
+            site_address = site_address.replace("AUS","Australia")
+
             #setup columns
             col1, col2 = st.columns(2)
 
-            #temp values
-            address ='83 Mount Street, North Sydney NSW 2060'
-
             with col1:
                 # Geocode address and display map
-                if address:
+                if site_address:
                     geolocator = Nominatim(user_agent="my_app")
-                    location = geolocator.geocode(address)
+                    location = geolocator.geocode(site_address, addressdetails=True)
                     if location:
                         latitude, longitude = location.latitude, location.longitude
                         location_df = pd.DataFrame(data=[[latitude,longitude]],columns=['lat','lon'])
                         st.map(location_df)
-        
-            customer='test customer'
+    
 
             with col2:
                 #create details table
-                table_data ={
-                    'Detail': ['Master Customer','Site Alias','Customer Classification Code', 'Customer Threshold Code', 'Average Daily Load'],
-                    'Value': [customer, 'test site','test code', 'test code','test load']
+                details_data ={
+                    'Detail': ['Master Customer','Site Alias', 'Site Size', 'Jurisdiction Code','Customer Classification Code', 'Customer Threshold Code','Network Tariff Code'],
+                    'Value': [site_customer, site_alias, site_size, jurisdiction_code,customer_class_code,customer_thresh_code,network_tariff_code]
                 }
 
-                table_df = pd.DataFrame(table_data)
+                details_df = pd.DataFrame(details_data)
 
-                st.table(table_df)
+                st.table(details_df)
 
                 #responsible party table
-                resp_pty ={
-                    'Party': ['placeholder'],
-                    'Last Role': ['placeholder'],
-                    'Latest From Date': ['placeholder']
-                }
-
-                resp_pty_df = pd.DataFrame(resp_pty)
+                resp_pty_df = pd.DataFrame(nmi_party_details)
 
                 st.table(resp_pty_df)
 
