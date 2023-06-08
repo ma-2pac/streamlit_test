@@ -3,6 +3,7 @@ Utilities module to assist the streamlit app
 '''
 from mtatk.api_lib.aemo_api_connector import APIConnector
 from mtatk.mta_sql.sql_connector import SQLConnector
+import streamlit as st
 import pandas as pd
 
 cert=r"C:\Users\Marco Tupaz\MTA Energy\MTA Energy - Documents\IT\AEMO_CSRs/kv-mta-MTAENERGY-Prod-20221111.pem"
@@ -79,7 +80,10 @@ def get_nmi_participants(nmi: str):
 
     return nmi_participants_df
 
-
+@st.cache_data
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
 
 api_con = setup_API_con()
 sql_con = setup_SQL_con()

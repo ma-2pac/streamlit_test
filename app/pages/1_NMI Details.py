@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0,'..')
 
-from modules.utils import api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants
+from modules.utils import api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants, convert_df
 
 
 #global variables
@@ -50,7 +50,6 @@ def nmi_page():
                 session_state.sub_key=False
 
             else:
-                st.write('Valid submission')
                 session_state.sub_key=True
 
     #middle page container
@@ -145,4 +144,21 @@ def nmi_page():
             #render fig
             st.plotly_chart(fig, use_container_width=True)
 
+            # add download button for df
+            csv = convert_df(export_df)
+
+
+
+            #setup columns
+            col1, col2, col3 = st.columns(3)
+
+            with col2:
+
+                st.download_button(
+                    label="Download data as CSV",
+                    data=csv,
+                    file_name=f'{nmi_in} - {read_in}.csv',
+                    mime='text/csv',
+                    use_container_width=True
+                )
 nmi_page()
