@@ -9,8 +9,9 @@ from streamlit import session_state
 import mtatk
 import sys
 import os
+from PIL import Image
 
-sys.path.insert(0,'..')
+#sys.path.insert(0,'..')
 
 from modules.utils import *
 #from modules.utils import * api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants, convert_df
@@ -21,23 +22,42 @@ reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh
 nmi_list =['Select a NMI']
 nmi_list=nmi_list+get_nmi_list() #add all nmi's in database to list
 
+#image path
+img_path = "app/imgs/400dpiLogo.jpg"
 
 
-# #get base dir
-# base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# header_html = "<img src='data:image/png;base64,{}' class='img-fluid'>".format(
-#     img_to_bytes("imgs/400dpiLogo.jpg")
-# )
+# Add the image to the header with resizing
 # st.markdown(
-#     header_html, unsafe_allow_html=True,
+#     f"""
+#     <style>
+#     .header-img {{
+#         display: flex;
+#         align-items: center;
+#         justify-content: center;
+#         height: 50px;
+#         background-image: url('{img_path}');
+#         background-size: contain;
+#         background-repeat: no-repeat;
+#         background-position: right;
+#     }}
+#     </style>
+#     """,
+#     unsafe_allow_html=True
 # )
+
+
 
 # Page: NMI Details
 
 def nmi_page():
+
+    #temporary measure as i figure out how to add logo to be contained to top right
+    with st.container():
+            st.image(Image.open(img_path),use_column_width =True)
     
     st.title("NMI Details")
+
+    #st.markdown('<div class="header-img"></div>', unsafe_allow_html=True,)
 
     #top  page container
     with st.container():
@@ -115,7 +135,7 @@ def nmi_page():
                     if location:
                         latitude, longitude = location.latitude, location.longitude
                         location_df = pd.DataFrame(data=[[latitude,longitude]],columns=['lat','lon'])
-                        st.map(location_df)
+                        st.map(location_df, use_container_width=True)
     
 
             with col2:
