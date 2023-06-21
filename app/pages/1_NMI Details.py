@@ -9,8 +9,9 @@ from streamlit import session_state
 import mtatk
 import sys
 import os
+from PIL import Image
 
-sys.path.insert(0,'..')
+#sys.path.insert(0,'..')
 
 from modules.utils import *
 #from modules.utils import * api_con, sql_con, get_nmi_msats_data, get_nmi_tariff, get_nmi_customer, get_nmi_participants, convert_df
@@ -21,23 +22,48 @@ reading_type =['Select a reading type','Export kWh', 'Import kWh', 'Export kVARh
 nmi_list =['Select a NMI']
 nmi_list=nmi_list+get_nmi_list() #add all nmi's in database to list
 
+#image path
+img_path = "app/imgs/400dpiLogo.jpg"
 
 
-# #get base dir
-# base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# header_html = "<img src='data:image/png;base64,{}' class='img-fluid'>".format(
-#     img_to_bytes("imgs/400dpiLogo.jpg")
-# )
+# Add the image to the header with resizing
 # st.markdown(
-#     header_html, unsafe_allow_html=True,
+#     f"""
+#     <style>
+#     .header-img {{
+#         display: flex;
+#         align-items: center;
+#         justify-content: center;
+#         height: 50px;
+#         background-image: url('{img_path}');
+#         background-size: contain;
+#         background-repeat: no-repeat;
+#         background-position: right;
+#     }}
+#     </style>
+#     """,
+#     unsafe_allow_html=True
 # )
+
+
 
 # Page: NMI Details
 
 def nmi_page():
+
+    #temporary measure as i figure out how to add logo to be contained to top right
+    with st.container():
+            
+        col1, col2, col3 = st.columns(3)
+
+        st.title("NMI Details")      
+
+        with col2:
+            st.image(Image.open(img_path),use_column_width=True)
     
-    st.title("NMI Details")
+    
+
+    #st.markdown('<div class="header-img"></div>', unsafe_allow_html=True,)
 
     #top  page container
     with st.container():
@@ -115,7 +141,7 @@ def nmi_page():
                     if location:
                         latitude, longitude = location.latitude, location.longitude
                         location_df = pd.DataFrame(data=[[latitude,longitude]],columns=['lat','lon'])
-                        st.map(location_df)
+                        st.map(location_df, use_container_width=True)
     
 
             with col2:
@@ -142,21 +168,23 @@ def nmi_page():
    
             #filter for reading type
             if read_in =='Export kWh':
-                export_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='export_kwh']
+                plot_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='export_kwh']
+
+            elif read_in =='Import kWh':
+                plot_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='import_kwh']
+
             else:
-                export_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='export_kwh']
+                plot_df=meter_data_df.loc[meter_data_df['nmi_suffix']=='export_kwh']
             
 
             # Create line chart with Plotly
-            fig = px.line(export_df, x='settlement_datetime', y='reading', title=f'{nmi_in} - {read_in}')
+            fig = px.line(plot_df, x='settlement_datetime', y='reading', title=f'{nmi_in} - {read_in}')
 
             #render fig
             st.plotly_chart(fig, use_container_width=True)
 
             # add download button for df
-            csv = convert_df(export_df)
-
-
+            csv = convert_df(plot_df)
 
             #setup columns
             col1, col2, col3 = st.columns(3)
